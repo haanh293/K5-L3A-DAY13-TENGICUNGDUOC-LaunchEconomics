@@ -4,6 +4,7 @@ Không cần khoá API. Điền các chỗ ghi VIẾT Ở ĐÂY (đánh dấu TO
 Bản gốc chưa sửa nằm ở lab13_starter.py.
 """
 import math
+from statistics import NormalDist
 import pandas as pd
 
 # Bảng giá GIẢ ĐỊNH của lab (không phải giá thật của nhà cung cấp nào)
@@ -192,12 +193,71 @@ def in_ket_qua_cp2(runs, reqs):
     print(f'  Trung bình thực tế {tb_phut_lam_lai:.1f}p/ca : tổng {tong_tb:,.0f}đ -> CPS {cps_tb:,.0f}đ ({cps_tb / BASELINE:.2f}x), hoà vốn <= {hoa_von_tb:.1f} phút/lần xem')
 
 
+# ---------- Nhiệm vụ D · Cỡ mẫu và thiết kế pilot ----------
+D_BASELINE = 0.70   # chỉ số chính hiện tại (số cho sẵn của đề)
+D_ICC = 0.02        # hệ số tương quan trong cụm (số cho sẵn của đề)
+D_ALPHA = 0.05
+D_POWER = 0.80
+
+
+def co_mau(p1, p2, alpha=D_ALPHA, power=D_POWER):
+    """Cỡ mẫu mỗi nhóm khi so hai tỉ lệ p1, p2 (z chính xác)."""
+    za, zb = NormalDist().inv_cdf(1 - alpha / 2), NormalDist().inv_cdf(power)
+    pb = (p1 + p2) / 2
+    return math.ceil((za * math.sqrt(2 * pb * (1 - pb))
+                      + zb * math.sqrt(p1 * (1 - p1) + p2 * (1 - p2))) ** 2 / (p2 - p1) ** 2)
+
+
+def he_so_thiet_ke(m, icc=D_ICC):
+    """Hệ số thiết kế khi chia theo cụm, m là số yêu cầu mỗi cụm."""
+    return 1 + (m - 1) * icc
+
+
+def in_ket_qua_cp4(reqs):
+    """In kết quả Nhiệm vụ D1 (năm câu cỡ mẫu), power ở mức 5 điểm và tỉ lệ mở lại hiện tại."""
+    print('\n=== D1 · Cỡ mẫu theo các cách chia (baseline 0,70; alpha 0,05; power 0,8; ICC 0,02) ===')
+    n_a = co_mau(D_BASELINE, D_BASELINE + 0.05)
+    print(f'  a) Chia theo yêu cầu (mức chênh 5 điểm)  : {n_a:,} yêu cầu mỗi nhóm')
+
+    m = 75
+    de_b = he_so_thiet_ke(m)
+    n_b = math.ceil(n_a * de_b)
+    nguoi_moi_nhom = math.ceil(n_b / m)
+    print(f'  b) Theo nhân viên, m = {m}: DE = {de_b:.2f}; n = {n_b:,} mỗi nhóm = {nguoi_moi_nhom} người mỗi nhóm,'
+          f' tổng {2 * nguoi_moi_nhom} > 40 nhân viên -> không đủ người')
+
+    toi_da_c = 20 / D_ICC
+    print(f'  c) 20 nhân viên mỗi nhóm: cỡ mẫu hiệu dụng tối đa {toi_da_c:,.0f} < {n_a:,} -> không đạt mức chênh 5 điểm')
+
+    toi_da_d = 6 / D_ICC
+    print(f'  d) 6 depot mỗi nhóm: cỡ mẫu hiệu dụng tối đa {toi_da_d:,.0f}, chỉ 6 cụm (dưới 20) -> loại')
+
+    n_6 = co_mau(D_BASELINE, D_BASELINE + 0.06)
+    c = 20
+    m_e = n_6 * (1 - D_ICC) / (c - n_6 * D_ICC)   # giải c*m / (1 + (m-1)*ICC) >= n_6
+    m_e_nguyen = math.ceil(m_e)
+    de_e = he_so_thiet_ke(m_e_nguyen)
+    print(f'  e) Mức chênh 6 điểm ({n_6:,} mỗi nhóm), {c} nhân viên mỗi nhóm: m >= {m_e:.1f} -> {m_e_nguyen} yêu cầu'
+          f' mỗi nhân viên (DE = {de_e:.2f})')
+
+    from statsmodels.stats.proportion import proportion_effectsize
+    from statsmodels.stats.power import NormalIndPower
+    es_5 = proportion_effectsize(D_BASELINE + 0.05, D_BASELINE)
+    power_5 = NormalIndPower().power(effect_size=es_5, nobs1=n_6, alpha=D_ALPHA, ratio=1.0)
+    print(f'  Power nếu tác động thật chỉ 5 điểm và n = {n_6:,} mỗi nhóm: {power_5:.2f}')
+
+    print('\n=== D3 · Tỉ lệ mở lại trong 7 ngày hiện tại (đợt chạy thử, chưa có nhóm đối chứng) ===')
+    pham_vi = reqs[reqs['loai'].isin(['noi_dia', 'hang_nang'])]
+    print(f'  Toàn mẫu                    : {reqs["mo_lai_trong_7_ngay"].mean() * 100:.2f}%'
+          f' ({int(reqs["mo_lai_trong_7_ngay"].sum())}/{len(reqs):,})')
+    print(f'  Phạm vi noi_dia + hang_nang : {pham_vi["mo_lai_trong_7_ngay"].mean() * 100:.2f}%'
+          f' ({int(pham_vi["mo_lai_trong_7_ngay"].sum())}/{len(pham_vi):,})')
+
+
 if __name__ == '__main__':
     runs = pd.read_csv('logix_runs.csv')
     reqs = pd.read_csv('logix_requests.csv', keep_default_na=False)
     kiem_tra_dap_an_biet_truoc()
     in_ket_qua_cp1(runs, reqs)
     in_ket_qua_cp2(runs, reqs)
-    # TODO CP4 · Nhiệm vụ D: cỡ mẫu (Người 3 bổ sung sau khi pull).
-    #   from statsmodels.stats.proportion import proportion_effectsize
-    #   from statsmodels.stats.power import NormalIndPower
+    in_ket_qua_cp4(reqs)
