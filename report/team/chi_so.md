@@ -42,5 +42,6 @@ Hệ thống thiết kế 10 event telemetry chuẩn hóa, mọi event đều b�
 
 | Rủi ro | Tác động đã tính | Dấu hiệu theo dõi | Hành động | Người phụ trách |
 | --- | --- | --- | --- | --- |
-| ... | ... | ... | ... | ... |
-| ... | ... | ... | ... | ... |
+| **Số ca làm lại tăng gấp đôi** | Chi phí mỗi việc thành công tăng **+51,8%**, từ 4.472 đ lên **6.787 đ** [simulated] | Tỉ lệ ca làm lại theo tuần vượt **7%** (mức chạy thử là 4,9% trong phạm vi) | Tạm thu hẹp phạm vi về riêng `noi_dia`, rà soát 20 trace gần nhất để vá prompt/tool | **PM trợ lý hoàn phí** |
+| **Phải xem lại 100% kéo dài** | Chi phí tăng vọt lên **11.743 đ (0,98×)** hoặc **12.415 đ (1,03×)** nếu làm lại mất 15,3 phút [simulated] (hết lãi/lỗ) | Tỉ lệ yêu cầu được xem lại vẫn duy trì **> 50%** tại cuối bước rollout 0.25 | Chuyển sang cơ chế xem lại ngẫu nhiên theo bậc khi tỉ lệ sửa/bỏ của nhân viên giảm dưới 15% | **Trưởng nhóm CSKH** |
+| **Khối lượng xử lý sụt giảm 50%** | Chi phí cố định (40 tr/tháng) gánh trên mỗi việc tăng từ 1.185 đ lên **2.370 đ/việc** [simulated] (tổng chi phí lên 5.784 đ = 0,48×) | Số lượng yêu cầu thành công theo tuần thấp hơn **50%** kế hoạch pilot | Giữ nguyên quy mô pilot không mở rộng, đàm phán lại chi phí cố định hạ tầng | **PM trợ lý hoàn phí** |
