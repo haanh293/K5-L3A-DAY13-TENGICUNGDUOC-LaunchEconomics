@@ -1,21 +1,19 @@
 # Phiếu chấm hội đồng Gate 2a
 
-Nhóm số n chấm nhóm số n + 1; nhóm cuối chấm nhóm 1. Chấm theo bằng chứng trong hồ sơ, không theo cách trình bày: một đề xuất No-go có lý do bằng số được điểm cao hơn một đề xuất Go bỏ qua con số bất lợi.
-
-- Nhóm chấm (hội đồng): ...
-- Nhóm được chấm: ...
+Nhóm số n chấm nhóm số n + 1; nhóm cuối chấm nhóm 1. Chấm theo bằng chứng trong hồ sơ, không theo cách trình bày: một đề xuất No-go có lý do bằng số được điểm cao hơn một đề xuất Go bỏ qua con số bất lợi.- Nhóm chấm (hội đồng): TENGICUNGDUOC (L3A)
+- Nhóm được chấm: PhucLocTho (L3A — `K5-L3A-DAY13-PhucLocTho-LaunchEconomics`)
 
 | Tiêu chí | 0 điểm | 5 điểm | 10 điểm | Điểm | Lý do (có số) |
 | --- | --- | --- | --- | ---: | --- |
-| Đề xuất khớp bằng chứng | Mâu thuẫn với số của chính nhóm | Khớp nhưng bỏ qua một con số bất lợi | Khớp, nêu cả con số bất lợi và cách xử lý | ... | ... |
-| Số giả lập và phạm vi | Không nhãn; phạm vi "mọi yêu cầu" | Có nhãn hoặc có thu hẹp phạm vi | Nhãn ở mọi số giả lập; phạm vi thu hẹp có lý do bằng số | ... | ... |
-| Pilot ra được quyết định | Không đối chứng hoặc thiếu cỡ mẫu | Đủ cỡ mẫu, luật dừng chung chung | Tách được tác động, đủ mẫu, luật dừng có ngưỡng, thời hạn, người có quyền dừng | ... | ... |
-| **Tổng** | | | | **... / 30** | |
+| Đề xuất khớp bằng chứng | Mâu thuẫn với số của chính nhóm | Khớp nhưng bỏ qua một con số bất lợi | Khớp, nêu cả con số bất lợi và cách xử lý | 10 | Đề xuất **Go có điều kiện** (chỉ `noi_dia` + `hang_nang`, chia `20 + 20` nhân viên) khớp số liệu (`4.599 đ = 0,38×` gồm cố định, cả hệ thống `5.865 đ = 0,49×`, simulated). Nêu thẳng 2 con số bất lợi lớn nhất và gắn điều kiện xử lý cụ thể: xem lại 100% lên `11.743–12.415 đ` (`0,98–1,03×`, simulated) → điều kiện giảm xem lại `< 50%` cuối bước `0.25`, mỗi lần ≤ `5` phút (Trưởng nhóm CSKH, `2026-12-15`); power còn `0,64` ở mức `+5` điểm → Giám đốc vận hành ký chấp nhận MDE `+6` điểm (`2026-11-28`); kèm sửa lỗi ca 7, 20 (`0` ca trùng trước `2026-11-28`) và thay phút `simulated` bằng đo thật sau tuần 1 (`2026-12-08`). |
+| Số giả lập và phạm vi | Không nhãn; phạm vi "mọi yêu cầu" | Có nhãn hoặc có thu hẹp phạm vi | Nhãn ở mọi số giả lập; phạm vi thu hẹp có lý do bằng số | 10 | Gắn nhãn `simulated` / trạng thái **Giả lập** đầy đủ ở mọi số từ cột `_simulated` trong `ho_so_launch_v0.md` (mục 1, 2, 3, 7), `bang_chi_phi.md`, `chi_so.md` và 6 mục `simulated_inputs` trong `pilot_plan.yaml`. Phạm vi thu hẹp có lý do bằng số rõ: giữ `noi_dia` (`2.696 đ = 0,22×`, thành công `95,0%`) + `hang_nang` (`8.221 đ = 0,69×`, thành công `74,1%`), loại `quoc_te` (`22.515 đ = 1,88×`, thành công `27,3%`, tỉ lệ `ok` giảm `30,0% → 11,4% → 2,2%`) và `doi_tac` (`10.215 đ = 0,85×`, điều khoản riêng) [simulated]. Không có từ cấm. |
+| Pilot ra được quyết định | Không đối chứng hoặc thiếu cỡ mẫu | Đủ cỡ mẫu, luật dừng chung chung | Tách được tác động, đủ mẫu, luật dừng có ngưỡng, thời hạn, người có quyền dừng | 10 | Tách được tác động tốt: đối chứng đồng thời `20 + 20` nhân viên trên cùng 12 depot, chia ngẫu nhiên bằng code có seed cố định phân tầng theo depot, giảm spillover bằng quyền tài khoản `staff_id`, chốt trước mọi ngưỡng & ngày quyết định (`2027-01-05`). Tính đúng 5 câu D1, chọn MDE `+6` điểm (`n = 859`/nhóm, `m ≥ 299` yc/NV, `DE = 6,96`, 20 cụm/nhóm) và ghi rõ đánh đổi power `0,64`. File `pilot_plan.yaml` đọc được bằng `yaml.safe_load`, không còn `?`, có **4 luật dừng** đủ 4 vế `NẾU – TRONG – THÌ – KHÔNG THÌ` (tách riêng luật hoàn trùng `≥ 1` ca trong 24h), ngưỡng an toàn hợp lý so với `3,97%` trong phạm vi, có người có quyền tắt và rollback `30` phút. |
+| **Tổng** | | | | **30 / 30** | |
 
-**Quyết định của hội đồng:** Go · Go có điều kiện · No-go (giữ một)
+**Quyết định của hội đồng:** Go có điều kiện
 
-**Lý do:** ...
+**Lý do:** Mô hình kinh tế trong phạm vi `noi_dia` + `hang_nang` cho hiệu quả rõ (`4.599 đ = 0,38×` của `12.000 đ` gồm cố định ở 45.000 yêu cầu/tháng, simulated), nhưng còn hai rủi ro lớn là phút xem lại/làm lại đang là giả lập (`92,5%` tổng chi phí; xem lại 100% đẩy chi phí lên `0,98–1,03×`) và hai lỗi sai tiền thật (ca 7, ca 20). Bốn điều kiện có người phụ trách, hạn kiểm tra rõ ràng cùng 4 luật dừng (rollback 30 phút) đủ để kiểm soát rủi ro trước và trong pilot.
 
-**Một câu hỏi cho đội trình:** ...
+**Một câu hỏi cho đội trình:** Trong luật dừng chi phí ở `pilot_plan.yaml`, nhóm đặt ngưỡng `> 8.000 đ` trong 2 tuần liên tiếp — ngưỡng này tính theo **chi phí biến đổi** hay **đã cộng chi phí cố định 40 triệu đ/tháng**? Bởi ở bước rollout `0.10` (4 nhân viên) và `0.25` (10 nhân viên), khối lượng pilot chỉ bằng 10–25% quy mô đầy đủ, nếu chia cả 40 triệu đ cố định vào thì chi phí mỗi việc thành công sẽ tự động vượt `8.000 đ` (lên trên `11.000 đ`) và kích hoạt thu hẹp ngay tuần 2 dù trợ lý vận hành tốt.
 
-**Câu trả lời của đội trình (ghi lại tại buổi):** ...
+**Câu trả lời của đội trình (ghi lại tại buổi):** *(Ngưỡng 8.000 đ trong luật dừng là chi phí biến đổi đo thật, chưa bổ 40 triệu đ cố định vào khối lượng nhỏ ở bước 0.10–0.25 để tránh dừng oan (vì ở mức 10%, cố định lên tới ~11.852 đ/việc). Khi biến đổi giữ ≤ 8.000 đ thì cộng thêm cố định ở quy mô 100% (+1.185 đ) hay 50% (+2.370 đ) vẫn dưới 12.000 đ của nhân viên. Chi phí cố định được tính gộp ở bước đánh giá cuối ngày 2027-01-05 và theo dõi riêng qua rủi ro khối lượng ở E2.i tại buổi):** ...
